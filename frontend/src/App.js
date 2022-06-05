@@ -1,12 +1,14 @@
-
-
+import { Route } from 'react-router-dom';
 import './App.css';
+import Chatpage from './Pages/Chatpage';
+import Homepage from './Pages/Homepage';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello World</h1>
- 
+      {/* 'exact' syntax ables us to use only the / path without rendering multiple components */}
+      <Route path='/' component={Homepage} exact/>
+      <Route path='/chats' component={Chatpage}/>
     </div>
   );
 }
