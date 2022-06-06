@@ -8,7 +8,9 @@ dotenv.config();
  
 connectDB();
 const app = express()
-const PORT = 3000 
+const PORT = 3001 
+
+app.use(express.json()); //This tells the server to accept the JSON DATA form the front end
 
 app.get('/', (req,res) => {
     res.send("TESTING ROUTE")
