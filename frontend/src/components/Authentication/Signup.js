@@ -1,5 +1,6 @@
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import {BiShowAlt, BiHide} from 'react-icons/bi'
 
 const Signup = () => {
     // creating usestates for name email confirm password picture etc
@@ -32,7 +33,7 @@ const Signup = () => {
                     <Input placeholder='Create a password' type={show? "text" : "password"} onChange={(e)=>setPassword(e.target.value)}/>
                     <InputRightElement width="4.5rem">
                         <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {show ? "Hide": "Show"}
+                           {show ? <BiHide />: <BiShowAlt />}
                         </Button>
                     </InputRightElement>
                 </InputGroup>         
@@ -44,7 +45,7 @@ const Signup = () => {
                     <Input placeholder='Confirm Password' type={show? "text" : "password"} onChange={(e)=>setConfirmPassword(e.target.value)}/>
                     <InputRightElement width="4.5rem">
                         <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {show ? "Hide": "Show"}
+                            {show ? <BiHide />: <BiShowAlt />}
                         </Button>
                     </InputRightElement>
                 </InputGroup>         

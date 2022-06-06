@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const { chats } = require("./data/data");
 const dotenv = require("dotenv")
+const userRoutes = require('./routes/userRoutes')
 
 dotenv.config();
  
@@ -25,6 +26,7 @@ app.get('/', (req,res) => {
 //     res.send(singleChat)
 // })
 
+app.use('/api/user', userRoutes)
 
 
 app.listen(PORT, console.log(`Server initialized on port: ${PORT}`))

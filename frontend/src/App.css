@@ -1,6 +1,10 @@
 .App {
   min-height: 100vh;
   display: flex;
+  background: url("./assets/homepageimg.png");
   background-color: rgb(47, 47, 47);
+  background-size: contain ;
+  background-repeat: no-repeat;
+  background-position: center; 
 }
 
