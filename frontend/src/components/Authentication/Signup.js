@@ -108,7 +108,7 @@ const Signup = () => {
             setLoading(false)
             //If user has succesfuly registered, push to chat page
             //history is a hook 
-            history.pushState('/chats')
+            history.push('/chats')
         } catch (error) {
              toast({
                 title: "Error",
