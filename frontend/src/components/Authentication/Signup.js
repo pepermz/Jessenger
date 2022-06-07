@@ -1,6 +1,9 @@
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import {BiShowAlt, BiHide} from 'react-icons/bi'
+import axios from "axios"
+import {useHistory} from 'react-router-dom'
+
 
 const Signup = () => {
     // creating usestates for name email confirm password picture etc
@@ -12,6 +15,7 @@ const Signup = () => {
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
     const toast = useToast();
+    const history = useHistory();
 
         // this handleclick function will update the value of show, so that we can see the password 
     const handleClick =()=> setShow(!show)
@@ -73,8 +77,49 @@ const Signup = () => {
             setLoading(false);
             return;
         }
-
-
+        //check if the password doesnt match
+        if(password !== confirmpassword){
+            toast({
+                title: "Password doesnt match",
+                status:"warning",
+                duration:5000,
+                isClosable: true,
+                position: "bottom",
+            })
+            return;
+        }    
+        // API request to store the data in our Database    
+        try {
+            const config = {
+                headers:{
+                    "Content-type": "application/json",
+                },
+            };
+            // global variale with string intrepulation ${} for the backend 
+            const { data } = await axios.post("http://localhost:3001/api/user", {name,email,password,img}, config)
+            toast({
+                title: "Registration Successful!",
+                status:"success",
+                duration:5000,
+                isClosable: true,
+                position: "bottom",
+            })
+            localStorage.setItem('userInfo', JSON.stringify(data))
+            setLoading(false)
+            //If user has succesfuly registered, push to chat page
+            //history is a hook 
+            history.pushState('/chats')
+        } catch (error) {
+             toast({
+                title: "Error",
+                description: error.response.data.message,
+                status:"error",
+                duration:5000,
+                isClosable: true,
+                position: "bottom",
+            })
+            setLoading(false)
+        }
     }
 
   return (

@@ -8,6 +8,7 @@ const generateToken = require('../config/generateToken')
 const registerUser = asyncHandler(async (req,res) => {
     const { name, email, password, img} = req.body
     // if name email or password doesn't match throw an error
+    console.log(req.body)
     if(!name || !email || !password){
         res.status(400);
         throw new Error("Please fill out all the fields")

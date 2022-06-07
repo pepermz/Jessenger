@@ -4,6 +4,7 @@ const { chats } = require("./data/data");
 const dotenv = require("dotenv")
 const userRoutes = require('./routes/userRoutes')
 const { errorHandler, notFound} = require('./middlewares/errorMiddleware')
+const cors = require('cors')
 
 dotenv.config();
  
@@ -11,6 +12,8 @@ connectDB();
 const app = express()
 const PORT = 3001 
 
+
+app.use(cors())
 app.use(express.json()); //This tells the server to accept the JSON DATA form the front end
 
 app.get('/', (req,res) => {
