@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import {BiShowAlt, BiHide} from 'react-icons/bi'
 
@@ -10,11 +10,72 @@ const Signup = () => {
     const [confirmpassword, setConfirmPassword] = useState()
     const [img, setImg] = useState()
     const [show, setShow] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const toast = useToast();
 
         // this handleclick function will update the value of show, so that we can see the password 
     const handleClick =()=> setShow(!show)
-    const postDetails= () => {}
-    const submitHandler = () => {}
+    const postDetails= (images) => {
+        setLoading(true);
+        if (images === undefined){
+            toast({
+            title: 'Account created.',
+            description: "We've created your account for you.",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
+        return;
+        //Doing the API fetch from Cloudinary
+        }
+        if(images.type==="image/jpeg" || images.type === "image/png" ){
+            const data = new FormData();
+            data.append("file", images);
+            data.append("upload_preset", "Messenger")
+            data.append("cloud_name", "gassembly")
+            fetch("https://api.cloudinary.com/v1_1/gassembly/image/upload", {
+                method: 'post',
+                body: data,
+            }).then((res)=> res.json())
+            .then(data=>{
+                setImg(data.url.toString())
+                setLoading(false)
+                console.log(setImg)
+                // setLoading to false because our picture has been successfully uploaded
+            })
+            .catch((err) =>{
+                console.log(err)
+                setLoading(false)
+            })
+            //THIS is for when the user tries to upload something other than an Image
+        }   else {
+            toast({
+            title: 'Select an Image',
+            status: 'warning',
+            duration: 5000,
+            isClosable: true,
+        })
+        setLoading(false);
+        return;
+        }
+    }
+    const submitHandler = async () => {
+        setLoading(true);
+        //Check if all the fields are submitted
+        if (!name || !email || !password || !confirmpassword) {
+            toast({
+                title: "Please fill the fields",
+                status:"warning",
+                duration:5000,
+                isClosable: true,
+                position: "bottom",
+            })
+            setLoading(false);
+            return;
+        }
+
+
+    }
 
   return (
     <VStack spacing='5px'>
@@ -54,7 +115,7 @@ const Signup = () => {
             <FormLabel>Upload an Image</FormLabel>
                 <Input type="file" p={1.5} accept="image/*" onChange={(e) => postDetails(e.target.files[0])} />         
         </FormControl>
-        <Button colorScheme="blue" width="100%" style={{marginTop:15}} onClick={submitHandler}>
+        <Button colorScheme="blue" width="100%" style={{marginTop:15}} onClick={submitHandler} isLoading={loading}>
             Sign Up
         </Button>
     </VStack>

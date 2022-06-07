@@ -1,11 +1,11 @@
 const express = require('express')
-const {registerUser} = require("../controllers/userControllers")
+const {registerUser, authUser} = require("../controllers/userControllers")
 const router = express.Router()
 
 //Endpoint for registration
 router.route('/').post(registerUser)
 
 //Endpoint for log in with another syntax alternative
-// router.post('/login', authUser)
+router.post('/login', authUser)
 
 module.exports = router;

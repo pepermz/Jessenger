@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const { chats } = require("./data/data");
 const dotenv = require("dotenv")
 const userRoutes = require('./routes/userRoutes')
+const { errorHandler, notFound} = require('./middlewares/errorMiddleware')
 
 dotenv.config();
  
@@ -30,5 +31,7 @@ app.get('/', (req,res) => {
 
 app.use('/api/user', userRoutes)
 
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(PORT, console.log(`Server initialized on port: ${PORT}`))
