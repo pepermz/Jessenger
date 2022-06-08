@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const { chats } = require("./data/data");
 const dotenv = require("dotenv")
 const userRoutes = require('./routes/userRoutes')
+const chatRoutes = require('./routes/chatRoutes')
 const { errorHandler, notFound} = require('./middlewares/errorMiddleware')
 const cors = require('cors')
 
@@ -20,19 +21,9 @@ app.get('/', (req,res) => {
     res.send("TESTING ROUTE")
 });
 
-// Using data.js (API Dummy Data for testing Route)
-// app.get('/api/chat', (req,res) => {
-//     res.send(chats);
-// })
-
-// Testing API ID
-// app.get('/api/chat/:id', (req,res) => {
-// Comparing the IDs of the DUMMY DATA chat's ID
-//     const singleChat = chats.find((compare)=>compare._id === req.params.id);
-//     res.send(singleChat)
-// })
 
 app.use('/api/user', userRoutes)
+app.use('/api/chat', chatRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
