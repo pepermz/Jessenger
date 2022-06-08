@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Container, Text, Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
 import Login from '../components/Authentication/Login'
 import Signup from '../components/Authentication/Signup'
+import { useHistory } from 'react-router-dom'
 
 
 const Homepage = () => {
+  const history = useHistory()
+
+  useEffect(()=>{
+    //Checking if the user is there if so push to the chat page
+    const user = JSON.parse(localStorage.getItem("userInfo"))
+
+    if(user)history.push('/chats')
+  },[history])
+
+
+
+
+
   return (
     <Container maxW='xl' centerContent>
       {/* adding inline styling */}

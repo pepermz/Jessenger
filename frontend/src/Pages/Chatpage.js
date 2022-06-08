@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { Box } from '@chakra-ui/react'
+import ChatBox from '../components/ChatBox'
+import SideDrawer from '../components/miscellaneous/SideDrawer'
+import MyChats from '../components/MyChats'
+import { ChatState } from '../Context/ChatProvider'
 
 const Chatpage = () => {
-    //Using useState to store the `data` inside `chats` and updating with `setChats`
-    const [chats, setChats] = useState([])
-    const fetchChats = async() => {
-        const {data} = await axios.get('/api/chat');
-        setChats(data)
-    }
-
-    useEffect(() => {
-        fetchChats()
-    }, [])
+  const {user} = ChatState()
 
   return (
-    <div>
-        {/* mapping through the data into chatName */}
-        {chats.map(chat => <div key={chat._id}>{chat.chatName}</div>)}
+    <div style ={{width: "100%"}}>
+      {/* check if the user is there only then render the side drawer */}
+       {user && <SideDrawer/>}
+       <Box display="flex" justifyContent='space-between' w='100%' h='91.5vh' p='10px'>
+         {/* only render if user is found */}
+         {user && <MyChats/>}
+         {user && <ChatBox/>}
+       </Box>
     </div>
   )
 }
